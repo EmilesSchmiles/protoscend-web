@@ -1,0 +1,9 @@
+/_framework/*
+  Content-Type: application/wasm
+  Cache-Control: no-cache
+
+/*.js
+  Content-Type: application/javascript
+
+/*.wasm
+  Content-Type: application/wasm
