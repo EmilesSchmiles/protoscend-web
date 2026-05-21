@@ -1,0 +1,7 @@
+/* /Layout/MainLayout.razor.rz.scp.css */
+/* MainLayout scoped styles — intentionally minimal.
+   All global styles live in wwwroot/css/app.css */
+
+main[b-dvhhdfonu2] {
+    flex: 1;
+}
