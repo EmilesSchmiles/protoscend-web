@@ -1,0 +1,114 @@
+@page "/projects/web-portfolios"
+@inject NavigationManager Nav
+@inject IJSRuntime JS
+
+<div class="project-page">
+    <div class="project-page-hero">
+        <div class="project-page-hero-content">
+            <a href="javascript:void(0)" class="back-link" @onclick='() => Nav.NavigateTo("/#portfolio")'>← Back to Portfolio</a>
+            <div class="section-label" style="margin-top:1.5rem;">Featured Project</div>
+            <h1 class="project-page-title">Web <span class="accent">Portfolios</span></h1>
+            <p class="project-page-tagline">Stunning, fast, and conversion-optimised websites that tell your brand story.</p>
+            <div class="project-tags" style="margin-top:1.5rem;"><span class="project-tag">React</span><span class="project-tag">Next.js</span><span class="project-tag">Blazor</span><span class="project-tag">Tailwind CSS</span><span class="project-tag">TypeScript</span><span class="project-tag">Vercel</span></div>
+        </div>
+        <div class="project-page-hero-visual">
+            <div class="pp-hex-ring pp-ring-1"></div>
+            <div class="pp-hex-ring pp-ring-2"></div>
+            <div class="pp-abbr">WEB</div>
+        </div>
+    </div>
+
+    <div class="project-page-body">
+        <div class="pp-overview reveal">
+            <div class="pp-overview-text">
+                <div class="section-label">Overview</div>
+                <h2 class="section-title" style="font-size:2rem;">Project <span class="accent">Overview</span></h2>
+                <div class="divider"></div>
+                <p class="section-body" style="margin-bottom:1rem;">We craft digital portfolios and marketing websites that combine visual impact with technical excellence. Every pixel serves a purpose — from hero animations to conversion-optimised CTAs.</p>
+                <p class="section-body" style="margin-bottom:1rem;">Our web portfolio work spans personal brands, creative agencies, professional firms, and SaaS companies. We build with performance and accessibility baked in from day one.</p>
+            </div>
+            <div class="pp-feature-list">
+                @foreach (var f in _features)
+                {
+                    <div class="pp-feature-item reveal">
+                        <div class="pp-feature-icon">@f.Icon</div>
+                        <div>
+                            <div class="pp-feature-title">@f.Title</div>
+                            <div class="pp-feature-desc">@f.Desc</div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <div class="pp-screenshots reveal">
+            <div class="section-label">Screenshots</div>
+            <h2 class="section-title" style="font-size:1.8rem;">Project <span class="accent">Gallery</span></h2>
+            <div class="divider"></div>
+            <div class="pp-screenshot-grid">
+                @for (int i = 1; i <= 4; i++)
+                {
+                    int n = i;
+                    <div class="pp-screenshot-card reveal">
+                        <img src="images/projects/web-portfolios/screen-@(n).jpg" alt="Screenshot @n" onerror="this.parentElement.classList.add('no-img')" />
+                        <div class="pp-screenshot-placeholder">
+                            <span>Screenshot @n</span>
+                            <small>wwwroot/images/projects/web-portfolios/screen-@(n).jpg</small>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <div class="pp-tech-section reveal">
+            <div class="section-label">Technology</div>
+            <h2 class="section-title" style="font-size:1.8rem;">How We <span class="accent">Build It</span></h2>
+            <div class="divider"></div>
+            <div class="pp-tech-grid">
+                @foreach (var t in _techDetails)
+                {
+                    <div class="pp-tech-card reveal">
+                        <div class="pp-tech-card-title">@t.Area</div>
+                        <div class="pp-tech-card-body">@t.Detail</div>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <div class="pp-cta reveal">
+            <h2 class="section-title" style="font-size:2rem;">Ready to Get <span class="accent">Started?</span></h2>
+            <p class="section-body" style="margin-bottom:2rem;">Let's build something great together.</p>
+            <a href="javascript:void(0)" class="btn-primary" @onclick='() => Nav.NavigateTo("/#contact")'>Start a Conversation →</a>
+        </div>
+    </div>
+</div>
+
+@code {
+    private record Feature(string Icon, string Title, string Desc);
+    private record TechDetail(string Area, string Detail);
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await JS.InvokeVoidAsync("protoscendInit");
+    }
+
+    private readonly List<Feature> _features =
+    [
+        new("🎨", "Custom Design", "Bespoke designs that reflect your brand identity — no templates, no shortcuts."),
+        new("⚡", "Blazing Fast", "Perfect Lighthouse scores through code splitting, lazy loading, and edge CDN delivery."),
+        new("📱", "Fully Responsive", "Pixel-perfect experiences across desktop, tablet, and mobile."),
+        new("🔍", "SEO Optimised", "Technical SEO built in: structured data, meta strategy, sitemap, and Core Web Vitals."),
+        new("✨", "Animations", "Tasteful scroll-triggered animations and micro-interactions that delight without distraction."),
+        new("♿", "Accessible", "WCAG 2.1 AA compliant — inclusive experiences for all users."),
+    ];
+
+    private readonly List<TechDetail> _techDetails =
+    [
+        new("Framework", "Next.js or Blazor depending on requirements — both delivering SSR and excellent SEO."),
+        new("Styling", "Tailwind CSS with a custom design token system for consistent, maintainable styles."),
+        new("CMS", "Sanity, Contentful, or Strapi for client-manageable content without developer involvement."),
+        new("Hosting", "Vercel, Azure Static Web Apps, or Netlify with global CDN and automatic SSL."),
+        new("Analytics", "Google Analytics 4 and Hotjar for data-driven optimisation post-launch."),
+        new("Forms", "Secure serverless form handling with email notifications and CRM integration."),
+    ];
+}

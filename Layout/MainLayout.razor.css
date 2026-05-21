@@ -1,0 +1,6 @@
+/* MainLayout scoped styles — intentionally minimal.
+   All global styles live in wwwroot/css/app.css */
+
+main {
+    flex: 1;
+}

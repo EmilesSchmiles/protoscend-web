@@ -1,0 +1,461 @@
+@page "/"
+@inject IJSRuntime JS
+@inject Protoscend.Services.ContactApiService ContactApi
+
+<section class="hero" id="hero">
+    <div class="hero-content">
+        <div class="hero-label">Software Development House</div>
+        <h1 class="hero-title">
+            We Build<br />
+            <span class="accent">Software</span> That<br />
+            <span class="outlined">Transcends</span>
+        </h1>
+        <p class="hero-subtitle">
+            Protoscend is a cutting-edge South African software development house
+            delivering tailored solutions — from enterprise systems to modern web
+            and mobile applications. Your turning point starts here.
+        </p>
+        <div class="hero-actions">
+            <a href="#services" class="btn-primary">Explore Services &nbsp;→</a>
+            <a href="#contact" class="btn-secondary">Start a Project</a>
+        </div>
+    </div>
+    <div class="hero-visual">
+        <div class="hex-ring hex-ring-1"></div>
+        <div class="hex-ring hex-ring-2"></div>
+        <div class="hex-ring hex-ring-3"></div>
+        <div class="hex-center">
+            <img src="images/emblem.png" alt="Protoscend Logo" onerror="this.style.display='none'" />
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     ABOUT
+═══════════════════════════════════════════ -->
+<section class="about-section" id="about">
+    <div class="about-grid">
+        <div>
+            <div class="section-label reveal">About Protoscend</div>
+            <h2 class="section-title reveal reveal-delay-1">
+                Your Turning Point<br />In <span class="accent">Software</span>
+            </h2>
+            <div class="divider reveal reveal-delay-2"></div>
+            <p class="section-body reveal reveal-delay-2">
+                Protoscend (Pty) Ltd is a South African software development house passionate
+                about engineering elegant, scalable, and high-performance solutions. We partner
+                with startups and enterprises alike to transform complex challenges into powerful
+                digital products.
+            </p>
+            <p class="section-body reveal reveal-delay-3" style="margin-top:1rem;">
+                From concept to deployment, we bring technical rigour and creative thinking
+                to every project — because we believe software should not just function,
+                it should <em>transcend</em> expectations.
+            </p>
+
+        </div>
+        <div class="about-stats reveal reveal-delay-3">
+            <div class="stat-card">
+                <div class="stat-number" data-target="50" data-suffix="+">0+</div>
+                <div class="stat-label">Projects Delivered</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" data-target="30" data-suffix="+">0+</div>
+                <div class="stat-label">Happy Clients</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" data-target="5" data-suffix="+">0+</div>
+                <div class="stat-label">Years Experience</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" data-target="100" data-suffix="%">0%</div>
+                <div class="stat-label">Commitment Rate</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════
+     SERVICES — Carousel
+═══════════════════════════════════════════ -->
+<section class="services-section" id="services">
+    <div class="services-header">
+        <div class="section-label reveal">What We Do</div>
+        <h2 class="section-title reveal reveal-delay-1">Our <span class="accent">Services</span></h2>
+        <div class="divider reveal reveal-delay-1"></div>
+        <p class="section-body reveal reveal-delay-2">
+            We offer a comprehensive suite of software services engineered to
+            accelerate your business and keep you ahead of the curve.
+        </p>
+    </div>
+
+    <div class="carousel-arrows">
+        <button class="carousel-arrow"
+                @onclick="CarouselPrev"
+                disabled="@(_carouselIndex == 0)"
+                aria-label="Previous">
+            &#8592;
+        </button>
+        <button class="carousel-arrow"
+                @onclick="CarouselNext"
+                disabled="@(_carouselIndex >= _maxIndex)"
+                aria-label="Next">
+            &#8594;
+        </button>
+    </div>
+
+    <div class="services-carousel-wrapper">
+        <div class="services-carousel-track"
+             style="transform: translateX(calc(-@(_carouselIndex) * (100% / @_visibleCards + @_gapOffset)))">
+            @{
+                int si = 0;
+            }
+            @foreach (var svc in _services)
+            {
+                double d = si * 0.08;
+                <div class="service-card reveal"
+                     style="transition-delay:@(d.ToString("F2", System.Globalization.CultureInfo.InvariantCulture))s">
+                    <div class="service-number">0@(si + 1)</div>
+                    <div class="service-icon" style="display: flex; align-items: center; justify-content: center;">
+                        <img src="@svc.Icon" alt="@svc.Name" style="width:36px;height:36px;object-fit:contain;" />
+                    </div>
+                    <h3 class="service-name">@svc.Name</h3>
+                    <p class="service-desc">@svc.Description</p>
+                </div>
+                si++;
+            }
+        </div>
+    </div>
+
+    <div class="carousel-dots">
+        @for (int i = 0; i <= _maxIndex; i++)
+        {
+            int idx = i;
+            <button class="carousel-dot @(_carouselIndex == idx ? "active" : "")"
+                    @onclick="@(() => _carouselIndex = idx)"
+                    aria-label="Go to slide @(idx + 1)"></button>
+        }
+    </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════
+     PROCESS
+═══════════════════════════════════════════ -->
+<section class="process-section" id="process">
+    <div class="section-label reveal">How We Work</div>
+    <h2 class="section-title reveal reveal-delay-1">Our <span class="accent">Process</span></h2>
+    <div class="divider reveal reveal-delay-1"></div>
+    <div class="process-steps">
+        @{
+            int pi = 0;
+        }
+        @foreach (var step in _process)
+        {
+            double d = pi * 0.12;
+            <div class="process-step reveal" style="transition-delay:@(d.ToString("F2", System.Globalization.CultureInfo.InvariantCulture))s">
+                <div class="step-node">@(pi + 1)</div>
+                <div class="step-title">@step.Title</div>
+                <div class="step-desc">@step.Desc</div>
+            </div>
+            pi++;
+        }
+    </div>
+    <div style="margin-top:4rem;">
+        <div class="section-label reveal" style="margin-bottom:1.5rem;">Technologies We Use</div>
+        <div class="tech-grid">
+            @foreach (var tech in _techStack)
+            {
+                <span class="tech-badge reveal">@tech</span>
+            }
+        </div>
+    </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════
+     PORTFOLIO — clickable cards → project pages
+═══════════════════════════════════════════ -->
+<section class="portfolio-section" id="portfolio">
+    <div class="section-label reveal">Our Work</div>
+    <h2 class="section-title reveal reveal-delay-1">Featured <span class="accent">Projects</span></h2>
+    <div class="divider reveal reveal-delay-1"></div>
+    <p class="section-body reveal reveal-delay-2" style="margin-bottom:2.5rem;">
+        Click any project to explore screenshots, capabilities, and the technology behind it.
+    </p>
+    <div class="portfolio-grid">
+        @{
+            int xi = 0;
+        }
+        @foreach (var proj in _projects)
+        {
+            double d = xi * 0.10;
+            int imgN = xi + 1;
+            <a href="@proj.Route"
+                   class="project-card reveal"
+                   style="transition-delay:@(d.ToString("F2", System.Globalization.CultureInfo.InvariantCulture))s; text-decoration:none; display:block; color:inherit;">
+                <div class="project-img">
+                    <img src="images/@(proj.ImgFolder).png"
+                         alt="@proj.Name"
+                         style="width:100%;height:100%;object-fit:fill;"
+                         onerror="this.style.display='none'" />
+                </div>
+                <div class="project-body">
+                    <div class="project-tags">
+                        @foreach (var tag in proj.Tags)
+                        {
+                            <span class="project-tag">@tag</span>
+                        }
+                    </div>
+                    <h3 class="project-name">@proj.Name</h3>
+                    <p class="project-desc">@proj.Desc</p>
+                </div>
+                <div class="project-arrow">&#8599;</div>
+            </a>
+            xi++;
+        }
+    </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════
+     CONTACT — wired to EmailService
+═══════════════════════════════════════════ -->
+<section class="contact-section" id="contact">
+    <div class="contact-wrapper">
+
+        <div class="contact-info">
+            <div class="section-label reveal">Contact Us</div>
+            <h2 class="section-title reveal reveal-delay-1">
+                Let's Build<br /><span class="accent">Something Great</span>
+            </h2>
+            <div class="divider reveal reveal-delay-1"></div>
+            <p class="section-body reveal reveal-delay-2">
+                Ready to start your project? Reach out and let's discuss how
+                Protoscend can be your turning point in software.
+            </p>
+            <div class="contact-item reveal reveal-delay-2">
+                <div class="contact-item-icon">&#9993;</div>
+                <div>
+                    <div class="contact-item-label">Email</div>
+                    <div class="contact-item-value">info@protoscend.co.za</div>
+                </div>
+            </div>
+            <div class="contact-item reveal reveal-delay-3">
+                <div class="contact-item-icon">&#128205;</div>
+                <div>
+                    <div class="contact-item-label">Location</div>
+                    <div class="contact-item-value">South Africa</div>
+                </div>
+            </div>
+            <div class="contact-item reveal reveal-delay-4">
+                <div class="contact-item-icon">&#128222;</div>
+                <div>
+                    <div class="contact-item-label">Phone</div>
+                    <div class="contact-item-value">+27 (0) XX XXX XXXX</div>
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <EditForm Model="_form" OnValidSubmit="HandleSubmitAsync" class="contact-form reveal reveal-delay-2">
+                <DataAnnotationsValidator />
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">First Name</label>
+                        <InputText @bind-Value="_form.FirstName" class="form-input" placeholder="John" />
+                        <ValidationMessage For="@(() => _form.FirstName)" class="form-error" />
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Last Name</label>
+                        <InputText @bind-Value="_form.LastName" class="form-input" placeholder="Doe" />
+                        <ValidationMessage For="@(() => _form.LastName)" class="form-error" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Email Address</label>
+                    <InputText @bind-Value="_form.Email" class="form-input" placeholder="john@company.com" />
+                    <ValidationMessage For="@(() => _form.Email)" class="form-error" />
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Company (Optional)</label>
+                    <InputText @bind-Value="_form.Company" class="form-input" placeholder="Your Company" />
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Service Interest</label>
+                    <InputSelect @bind-Value="_form.Service" class="form-input">
+                        <option value="">Select a service...</option>
+                        @foreach (var svc in _services)
+                        {
+                            <option>@svc.Name</option>
+                        }
+                        <option>Other / General Enquiry</option>
+                    </InputSelect>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Message</label>
+                    <InputTextArea @bind-Value="_form.Message" class="form-textarea"
+                                   placeholder="Tell us about your project..." />
+                    <ValidationMessage For="@(() => _form.Message)" class="form-error" />
+                </div>
+
+                @if (!string.IsNullOrEmpty(_statusMessage))
+                {
+                    <div class="form-status @(_submitSuccess ? "form-status--success" : "form-status--error")">
+                        @_statusMessage
+                    </div>
+                }
+
+                <button type="submit" class="btn-primary" style="align-self:flex-start;" disabled="@_submitting">
+                    @if (_submitting)
+                    {
+                        <span class="btn-spinner"></span>
+                        <span>Sending...</span>
+                    }
+                    else
+                    {
+                        <span>Send Message &nbsp;→</span>
+                    }
+                </button>
+            </EditForm>
+        </div>
+
+    </div>
+</section>
+
+
+@code {
+
+    // ── Form state ───────────────────────────────────────────
+    private Protoscend.Services.ContactFormModel _form = new();
+    private bool _submitting = false;
+    private bool _submitSuccess = false;
+    private string _statusMessage = "";
+    // ── Carousel state ───────────────────────────────────────
+    private int _carouselIndex = 0;
+    private int _visibleCards = 3;   // desktop shows 3
+    private int _maxIndex => Math.Max(0, _services.Count - _visibleCards);
+    private string _gapOffset => "0.5rem";
+
+    private void CarouselNext()
+    {
+        if (_carouselIndex < _maxIndex) _carouselIndex++;
+    }
+
+    private void CarouselPrev()
+    {
+        if (_carouselIndex > 0) _carouselIndex--;
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await JS.InvokeVoidAsync("protoscendInit");
+    }
+
+    private async Task HandleSubmitAsync()
+    {
+        _submitting = true;
+        _statusMessage = "";
+        StateHasChanged();
+
+        var (success, message) = await ContactApi.SubmitAsync(_form);
+
+        _submitSuccess = success;
+        _statusMessage = message;
+        _submitting = false;
+
+        if (success)
+        {
+            _form = new(); // reset form on success
+        }
+
+        StateHasChanged();
+
+        // Auto-clear success message after 8 seconds
+        if (success)
+        {
+            await Task.Delay(8000);
+            _statusMessage = "";
+            StateHasChanged();
+        }
+    }
+
+    // ── Data records ─────────────────────────────────────────
+    private record Svc(string Icon, string Name, string Description);
+    private record Step(string Title, string Desc);
+    private record Proj(string Name, string Abbr, string[] Tags, string Desc, string Route, string ImgFolder);
+
+    // ── Services ─────────────────────────────────────────────
+    private readonly List<Svc> _services =
+    [
+        new("Logos/mobile-app.png", "Mobile Apps",
+            "Native and cross-platform mobile apps for iOS and Android that deliver exceptional user experiences."),
+        new("Logos/web-portfolio.png", "Web Portfolios",
+            "Stunning, fast, and SEO-optimised websites and digital portfolios that tell your brand story."),
+        new("Logos/Event-Booking.png", "Event Booking Systems",
+            "End-to-end event management and ticketing platforms built to handle any scale with ease."),
+        new("Logos/Automation.png", "Automation",
+            "Smart workflow automation that eliminates repetitive tasks and scales your operations."),
+        new("Logos/Web-App.png", "Web App Development",
+            "Full-stack web applications built to solve real business problems — fast, secure, and scalable."),
+        new("Logos/erp-system.png", "ERP & Ticketing Systems",
+            "Custom ERP modules and helpdesk platforms tailored to the way your business actually works."),
+    ];
+
+    // ── Process steps ────────────────────────────────────────
+    private readonly List<Step> _process =
+    [
+        new("Discovery", "We deep-dive into your goals and constraints to define the perfect solution."),
+        new("Design",    "Architecture planning, UI/UX wireframing, and technical specification — the blueprint."),
+        new("Develop",   "Agile sprints with continuous delivery, code reviews, and iterative feedback."),
+        new("Deploy",    "Rigorous QA, staging environments, seamless production deployment and go-live support."),
+        new("Support",   "Ongoing maintenance, monitoring, performance optimisation, and feature evolution."),
+    ];
+
+    // ── Tech stack ───────────────────────────────────────────
+    private readonly List<string> _techStack =
+    [
+        "C# / .NET 10", "Blazor", "ASP.NET Core","Python", "Azure",
+        "SQL Server", "PostgreSQL","REST APIs", "Git / GitHub", ".NET MAUI"
+    ];
+
+    // ── Projects — each links to its own page ────────────────
+    private readonly List<Proj> _projects =
+    [
+        new("Mobile Apps", "APP",
+        ["React Native", ".NET MAUI", "iOS & Android"],
+        "Native and cross-platform mobile applications with biometric auth, offline sync, and real-time data.",
+        "/projects/mobile-apps", "MobileApp"),
+
+        new("Web Portfolios", "WEB",
+            ["Next.js", "React", "Blazor"],
+            "Stunning, fast, and SEO-optimised websites that elevate your brand and convert visitors.",
+            "/projects/web-portfolios", "WebPortfolio"),
+
+        new("Automation", "AUT",
+            ["Python", "Power Automate", "Azure"],
+            "Intelligent workflow automation that eliminates manual tasks and scales operations.",
+            "/projects/automation", "Automation"),
+
+        new("Event Booking System", "EVT",
+            ["ASP.NET Core", "SignalR", "Stripe"],
+            "End-to-end event ticketing and management — from seat selection to QR check-in.",
+            "/projects/event-booking", "EventBooking"),
+
+        new("Web App Development", "APP",
+            ["Blazor", "React", "ASP.NET Core"],
+            "Full-stack, data-driven web applications built for performance, security, and scale.",
+            "/projects/web-app-development", "WebDevelopment"),
+
+        new("ERP & Ticketing Systems", "ERP",
+            ["ASP.NET Core", "SQL Server", "Blazor"],
+            "Custom ERP modules and helpdesk platforms that map precisely to your workflows.",
+            "/projects/erp-ticketing", "ERP"),
+    ];
+}

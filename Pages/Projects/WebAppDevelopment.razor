@@ -1,0 +1,114 @@
+@page "/projects/web-app-development"
+@inject NavigationManager Nav
+@inject IJSRuntime JS
+
+<div class="project-page">
+    <div class="project-page-hero">
+        <div class="project-page-hero-content">
+            <a href="javascript:void(0)" class="back-link" @onclick='() => Nav.NavigateTo("/#portfolio")'>← Back to Portfolio</a>
+            <div class="section-label" style="margin-top:1.5rem;">Featured Project</div>
+            <h1 class="project-page-title"><span class="accent">Web App</span> Development</h1>
+            <p class="project-page-tagline">Full-stack web applications built to solve real business problems at scale.</p>
+            <div class="project-tags" style="margin-top:1.5rem;"><span class="project-tag">Blazor</span><span class="project-tag">React</span><span class="project-tag">ASP.NET Core</span><span class="project-tag">Azure</span><span class="project-tag">SQL Server</span><span class="project-tag">Docker</span></div>
+        </div>
+        <div class="project-page-hero-visual">
+            <div class="pp-hex-ring pp-ring-1"></div>
+            <div class="pp-hex-ring pp-ring-2"></div>
+            <div class="pp-abbr">APP</div>
+        </div>
+    </div>
+
+    <div class="project-page-body">
+        <div class="pp-overview reveal">
+            <div class="pp-overview-text">
+                <div class="section-label">Overview</div>
+                <h2 class="section-title" style="font-size:2rem;">Project <span class="accent">Overview</span></h2>
+                <div class="divider"></div>
+                <p class="section-body" style="margin-bottom:1rem;">We build complex, data-driven web applications that power business operations. From multi-tenant SaaS platforms to internal enterprise tools — if it needs to be fast, secure, and reliable, we build it.</p>
+                <p class="section-body" style="margin-bottom:1rem;">Our web app projects range from customer-facing portals handling thousands of daily transactions, to back-office systems managing complex workflows across large organisations.</p>
+            </div>
+            <div class="pp-feature-list">
+                @foreach (var f in _features)
+                {
+                    <div class="pp-feature-item reveal">
+                        <div class="pp-feature-icon">@f.Icon</div>
+                        <div>
+                            <div class="pp-feature-title">@f.Title</div>
+                            <div class="pp-feature-desc">@f.Desc</div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <div class="pp-screenshots reveal">
+            <div class="section-label">Screenshots</div>
+            <h2 class="section-title" style="font-size:1.8rem;">Project <span class="accent">Gallery</span></h2>
+            <div class="divider"></div>
+            <div class="pp-screenshot-grid">
+                @for (int i = 1; i <= 4; i++)
+                {
+                    int n = i;
+                    <div class="pp-screenshot-card reveal">
+                        <img src="images/projects/web-app-development/screen-@(n).jpg" alt="Screenshot @n" onerror="this.parentElement.classList.add('no-img')" />
+                        <div class="pp-screenshot-placeholder">
+                            <span>Screenshot @n</span>
+                            <small>wwwroot/images/projects/web-app-development/screen-@(n).jpg</small>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <div class="pp-tech-section reveal">
+            <div class="section-label">Technology</div>
+            <h2 class="section-title" style="font-size:1.8rem;">How We <span class="accent">Build It</span></h2>
+            <div class="divider"></div>
+            <div class="pp-tech-grid">
+                @foreach (var t in _techDetails)
+                {
+                    <div class="pp-tech-card reveal">
+                        <div class="pp-tech-card-title">@t.Area</div>
+                        <div class="pp-tech-card-body">@t.Detail</div>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <div class="pp-cta reveal">
+            <h2 class="section-title" style="font-size:2rem;">Ready to Get <span class="accent">Started?</span></h2>
+            <p class="section-body" style="margin-bottom:2rem;">Let's build something great together.</p>
+            <a href="javascript:void(0)" class="btn-primary" @onclick='() => Nav.NavigateTo("/#contact")'>Start a Conversation →</a>
+        </div>
+    </div>
+</div>
+
+@code {
+    private record Feature(string Icon, string Title, string Desc);
+    private record TechDetail(string Area, string Detail);
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await JS.InvokeVoidAsync("protoscendInit");
+    }
+
+    private readonly List<Feature> _features =
+    [
+        new("🏗", "Scalable Architecture", "Microservices, CQRS, and event-driven patterns designed to grow with your business."),
+        new("🔐", "Enterprise Security", "Role-based access control, audit logging, data encryption, and OWASP-compliant code."),
+        new("📊", "Data Visualisation", "Rich interactive dashboards and reports powered by real-time data."),
+        new("🌍", "Multi-tenant SaaS", "White-label, multi-tenant architecture with tenant isolation and custom branding."),
+        new("🔄", "Real-time Features", "Live data updates, collaborative editing, and instant notifications via SignalR."),
+        new("🧪", "Quality Assured", "Automated unit, integration, and end-to-end tests with 80%+ coverage targets."),
+    ];
+
+    private readonly List<TechDetail> _techDetails =
+    [
+        new("Frontend", "Blazor WebAssembly or React/TypeScript — chosen based on team and complexity."),
+        new("Backend", "ASP.NET Core 10 with Clean Architecture, MediatR, and Entity Framework Core."),
+        new("Database", "SQL Server or PostgreSQL with Redis caching for high-performance data access."),
+        new("Cloud", "Azure App Service, Azure SQL, Blob Storage, and Azure Service Bus for messaging."),
+        new("DevOps", "GitHub Actions CI/CD, Docker containers, Terraform IaC, and blue-green deployments."),
+        new("Testing", "xUnit, Playwright, and k6 load testing integrated into the deployment pipeline."),
+    ];
+}

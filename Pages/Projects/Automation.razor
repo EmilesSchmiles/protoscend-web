@@ -1,0 +1,114 @@
+@page "/projects/automation"
+@inject NavigationManager Nav
+@inject IJSRuntime JS
+
+<div class="project-page">
+    <div class="project-page-hero">
+        <div class="project-page-hero-content">
+            <a href="javascript:void(0)" class="back-link" @onclick='() => Nav.NavigateTo("/#portfolio")'>← Back to Portfolio</a>
+            <div class="section-label" style="margin-top:1.5rem;">Featured Project</div>
+            <h1 class="project-page-title"><span class="accent">Automation</span></h1>
+            <p class="project-page-tagline">Smart workflow automation that eliminates repetitive tasks and scales operations.</p>
+            <div class="project-tags" style="margin-top:1.5rem;"><span class="project-tag">Python</span><span class="project-tag">Power Automate</span><span class="project-tag">Azure Logic Apps</span><span class="project-tag">RPA</span><span class="project-tag">REST APIs</span><span class="project-tag">Zapier</span></div>
+        </div>
+        <div class="project-page-hero-visual">
+            <div class="pp-hex-ring pp-ring-1"></div>
+            <div class="pp-hex-ring pp-ring-2"></div>
+            <div class="pp-abbr">AUT</div>
+        </div>
+    </div>
+
+    <div class="project-page-body">
+        <div class="pp-overview reveal">
+            <div class="pp-overview-text">
+                <div class="section-label">Overview</div>
+                <h2 class="section-title" style="font-size:2rem;">Project <span class="accent">Overview</span></h2>
+                <div class="divider"></div>
+                <p class="section-body" style="margin-bottom:1rem;">We identify and eliminate bottlenecks in your business processes through intelligent automation. From simple scheduled reports to complex multi-system RPA workflows — we build automation that pays for itself.</p>
+                <p class="section-body" style="margin-bottom:1rem;">Our automation projects have saved clients thousands of man-hours annually by automating data entry, document processing, invoice handling, customer onboarding, and cross-system synchronisation.</p>
+            </div>
+            <div class="pp-feature-list">
+                @foreach (var f in _features)
+                {
+                    <div class="pp-feature-item reveal">
+                        <div class="pp-feature-icon">@f.Icon</div>
+                        <div>
+                            <div class="pp-feature-title">@f.Title</div>
+                            <div class="pp-feature-desc">@f.Desc</div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <div class="pp-screenshots reveal">
+            <div class="section-label">Screenshots</div>
+            <h2 class="section-title" style="font-size:1.8rem;">Project <span class="accent">Gallery</span></h2>
+            <div class="divider"></div>
+            <div class="pp-screenshot-grid">
+                @for (int i = 1; i <= 4; i++)
+                {
+                    int n = i;
+                    <div class="pp-screenshot-card reveal">
+                        <img src="images/projects/automation/screen-@(n).jpg" alt="Screenshot @n" onerror="this.parentElement.classList.add('no-img')" />
+                        <div class="pp-screenshot-placeholder">
+                            <span>Screenshot @n</span>
+                            <small>wwwroot/images/projects/automation/screen-@(n).jpg</small>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <div class="pp-tech-section reveal">
+            <div class="section-label">Technology</div>
+            <h2 class="section-title" style="font-size:1.8rem;">How We <span class="accent">Build It</span></h2>
+            <div class="divider"></div>
+            <div class="pp-tech-grid">
+                @foreach (var t in _techDetails)
+                {
+                    <div class="pp-tech-card reveal">
+                        <div class="pp-tech-card-title">@t.Area</div>
+                        <div class="pp-tech-card-body">@t.Detail</div>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <div class="pp-cta reveal">
+            <h2 class="section-title" style="font-size:2rem;">Ready to Get <span class="accent">Started?</span></h2>
+            <p class="section-body" style="margin-bottom:2rem;">Let's build something great together.</p>
+            <a href="javascript:void(0)" class="btn-primary" @onclick='() => Nav.NavigateTo("/#contact")'>Start a Conversation →</a>
+        </div>
+    </div>
+</div>
+
+@code {
+    private record Feature(string Icon, string Title, string Desc);
+    private record TechDetail(string Area, string Detail);
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await JS.InvokeVoidAsync("protoscendInit");
+    }
+
+    private readonly List<Feature> _features =
+    [
+        new("🤖", "RPA Workflows", "Robotic Process Automation that handles repetitive tasks exactly as a human would, 24/7."),
+        new("📄", "Document Processing", "Automated extraction, classification, and routing of invoices, contracts, and forms."),
+        new("🔗", "System Integration", "Connect siloed systems — ERP, CRM, HR, accounting — with bidirectional data sync."),
+        new("📅", "Scheduled Tasks", "Automated reports, data exports, backups, and notifications on any schedule."),
+        new("📬", "Email Automation", "Intelligent email parsing and auto-responses triggered by content and sender rules."),
+        new("📈", "Process Analytics", "Dashboards showing time saved, error rates, and ROI of automated processes."),
+    ];
+
+    private readonly List<TechDetail> _techDetails =
+    [
+        new("RPA Platform", "Python with Selenium/Playwright or Microsoft Power Automate Desktop for UI automation."),
+        new("Integration", "Azure Logic Apps and custom .NET worker services for API-to-API automation."),
+        new("AI / ML", "Azure AI Document Intelligence for intelligent form and invoice data extraction."),
+        new("Scheduling", "Azure Functions with CRON triggers for reliable, serverless scheduled automation."),
+        new("Monitoring", "Application Insights alerting for failed automation runs with automatic retry logic."),
+        new("Security", "Managed identities and Azure Key Vault for credential-free, audited automation."),
+    ];
+}

@@ -1,0 +1,151 @@
+@page "/projects/mobile-apps"
+@inject NavigationManager Nav
+
+<div class="project-page">
+
+    <div class="project-page-hero">
+        <div class="project-page-hero-content">
+            <a href="javascript:void(0)" class="back-link" @onclick='() => Nav.NavigateTo("/#portfolio")'> ← Back to Portfolio</a>
+            <div class="section-label" style="margin-top:1.5rem;">Featured Project</div>
+            <h1 class="project-page-title">Mobile <span class="accent">Apps</span></h1>
+            <p class="project-page-tagline">
+                Native &amp; cross-platform mobile experiences built for iOS and Android.
+            </p>
+            <div class="project-tags" style="margin-top:1.5rem;">
+                <span class="project-tag">React Native</span>
+                <span class="project-tag">Flutter</span>
+                <span class="project-tag">.NET MAUI</span>
+                <span class="project-tag">iOS</span>
+                <span class="project-tag">Android</span>
+                <span class="project-tag">REST APIs</span>
+            </div>
+        </div>
+        <div class="project-page-hero-visual">
+            <div class="pp-hex-ring pp-ring-1"></div>
+            <div class="pp-hex-ring pp-ring-2"></div>
+            <div class="pp-abbr">APP</div>
+        </div>
+    </div>
+
+    <div class="project-page-body">
+
+        <div class="pp-overview reveal">
+            <div class="pp-overview-text">
+                <div class="section-label">Overview</div>
+                <h2 class="section-title" style="font-size:2rem;">
+                    Mobile-First <span class="accent">Solutions</span>
+                </h2>
+                <div class="divider"></div>
+                <p class="section-body">
+                    We design and build mobile applications that go beyond the ordinary — 
+                    combining intuitive UX with rock-solid engineering. Whether you need a 
+                    consumer-facing app or an internal enterprise tool, we deliver products 
+                    your users will love.
+                </p>
+                <p class="section-body" style="margin-top:1rem;">
+                    Our mobile portfolio includes banking apps with biometric authentication,
+                    field-service tools used by thousands of technicians daily, and consumer
+                    lifestyle apps with real-time sync and offline capability.
+                </p>
+            </div>
+            <div class="pp-feature-list">
+                @foreach (var f in _features)
+                {
+                    <div class="pp-feature-item reveal">
+                        <div class="pp-feature-icon">@f.Icon</div>
+                        <div>
+                            <div class="pp-feature-title">@f.Title</div>
+                            <div class="pp-feature-desc">@f.Desc</div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <!-- Screenshots -->
+        <div class="pp-screenshots reveal">
+            <div class="section-label">Screenshots</div>
+            <h2 class="section-title" style="font-size:1.8rem;">
+                Project <span class="accent">Gallery</span>
+            </h2>
+            <div class="divider"></div>
+            <div class="pp-screenshot-grid">
+                @for (int i = 1; i <= 4; i++)
+                {
+                    int n = i;
+                    <div class="pp-screenshot-card reveal">
+                        <!--
+                            MANUAL: Add your screenshots to wwwroot/images/projects/mobile-apps/
+                            Name them: screen-1.jpg, screen-2.jpg, screen-3.jpg, screen-4.jpg
+                        -->
+                        <img src="images/projects/mobile-apps/screen-@(n).jpg"
+                             alt="Mobile App Screenshot @n"
+                             onerror="this.parentElement.classList.add('no-img')" />
+                        <div class="pp-screenshot-placeholder">
+                            <span>Screenshot @n</span>
+                            <small>Add image: wwwroot/images/projects/mobile-apps/screen-@(n).jpg</small>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <!-- Tech deep-dive -->
+        <div class="pp-tech-section reveal">
+            <div class="section-label">Technology</div>
+            <h2 class="section-title" style="font-size:1.8rem;">
+                How We <span class="accent">Build It</span>
+            </h2>
+            <div class="divider"></div>
+            <div class="pp-tech-grid">
+                @foreach (var t in _techDetails)
+                {
+                    <div class="pp-tech-card reveal">
+                        <div class="pp-tech-card-title">@t.Area</div>
+                        <div class="pp-tech-card-body">@t.Detail</div>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <!-- CTA -->
+        <div class="pp-cta reveal">
+            <h2 class="section-title" style="font-size:2rem;">
+                Ready to Build Your <span class="accent">App?</span>
+            </h2>
+            <p class="section-body" style="margin-bottom:2rem;">
+                Let's turn your idea into a polished mobile product your users will love.
+            </p>
+            <a href="javascript:void(0)" class="btn-primary"
+                   @onclick='() => Nav.NavigateTo("/#contact")'>
+                Start a Conversation →
+            </a>
+        </div>
+
+    </div>
+</div>
+
+@code {
+    private record Feature(string Icon, string Title, string Desc);
+    private record TechDetail(string Area, string Detail);
+
+    private readonly List<Feature> _features =
+    [
+        new("📱", "Cross-Platform",        "Single codebase targeting iOS and Android with native performance using React Native or .NET MAUI."),
+        new("🔐", "Biometric Auth",         "Fingerprint and Face ID integration for seamless, secure user authentication."),
+        new("🔄", "Offline-First",          "Apps that work without connectivity and sync automatically when back online."),
+        new("📍", "Location & Maps",        "Real-time GPS tracking, geofencing, and interactive mapping experiences."),
+        new("🔔", "Push Notifications",     "Targeted, personalised push notifications via Firebase and APNs."),
+        new("💳", "Payment Integration",    "Stripe, PayFast, and Ozow integrations for frictionless in-app payments."),
+    ];
+
+    private readonly List<TechDetail> _techDetails =
+    [
+        new("Frontend Framework", "React Native or .NET MAUI — chosen based on team skills and project requirements."),
+        new("State Management",   "Redux Toolkit, Zustand, or built-in .NET patterns for predictable state."),
+        new("Backend / API",      "ASP.NET Core REST APIs or GraphQL endpoints hosted on Azure App Service."),
+        new("Authentication",     "Azure AD B2C, Auth0, or custom JWT-based auth with refresh token rotation."),
+        new("CI/CD",              "GitHub Actions pipelines that build, test, and publish to App Store and Play Store."),
+        new("Monitoring",         "Firebase Crashlytics + App Center for real-time crash reporting and analytics."),
+    ];
+}

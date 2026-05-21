@@ -1,0 +1,86 @@
+﻿@inherits LayoutComponentBase
+@inject IJSRuntime JS
+
+<!-- ═══ NAVIGATION ═══ -->
+<nav class="navbar" id="main-navbar">
+    <a href="/" class="nav-brand">
+        <img src="images/emblem.png"
+             alt="Protoscend Emblem"
+             onerror="this.style.display='none'" />
+        <span class="nav-brand-text">PROTO<span>S</span>CEND</span>
+    </a>
+
+    <div class="nav-spacer"></div>
+
+    <ul class="nav-links">
+        <li><a href="#about">About</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#process">Process</a></li>
+        <li><a href="#portfolio">Portfolio</a></li>
+        <li><a href="#contact" class="nav-cta">Get In Touch</a></li>
+    </ul>
+
+    <button class="nav-hamburger" id="nav-hamburger-btn" aria-label="Open menu">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+</nav>
+
+<!-- Mobile slide-down nav -->
+<div class="nav-mobile" id="nav-mobile-menu">
+    <a href="#about">About</a>
+    <a href="#services">Services</a>
+    <a href="#process">Process</a>
+    <a href="#portfolio">Portfolio</a>
+    <a href="#contact">Contact</a>
+</div>
+
+<!-- ═══ PAGE BODY ═══ -->
+<main>
+    @Body
+</main>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+    <div class="footer-top">
+        <div>
+            <a href="/" class="footer-brand">
+                <img src="images/emblem.png"
+                     alt="Protoscend"
+                     onerror="this.style.display='none'" />
+                <span class="footer-brand-text">PROTO<span>S</span>CEND</span>
+            </a>
+            <p class="footer-tagline" style="margin-top:0.5rem;">
+                Your Turning Point In Software
+            </p>
+        </div>
+        <ul class="footer-links">
+            <li><a href="#about">About</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#portfolio">Portfolio</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </div>
+    <div class="footer-bottom">
+        <p class="footer-copy">
+            &copy; 2026 PROTOSCEND (Pty) Ltd. All rights reserved.
+        </p>
+        <div class="footer-socials">
+            <a href="#" class="social-icon" title="LinkedIn">in</a>
+            <a href="#" class="social-icon" title="GitHub">GH</a>
+            <a href="#" class="social-icon" title="X">&#120143;</a>
+        </div>
+    </div>
+</footer>
+
+@code {
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            try { await JS.InvokeVoidAsync("protoscendInit"); }
+            catch { /* JS not ready yet on first paint */ }
+        }
+    }
+}

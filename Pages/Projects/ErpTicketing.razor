@@ -1,0 +1,114 @@
+@page "/projects/erp-ticketing"
+@inject NavigationManager Nav
+@inject IJSRuntime JS
+
+<div class="project-page">
+    <div class="project-page-hero">
+        <div class="project-page-hero-content">
+            <a href="javascript:void(0)" class="back-link" @onclick='() => Nav.NavigateTo("/#portfolio")'>← Back to Portfolio</a>
+            <div class="section-label" style="margin-top:1.5rem;">Featured Project</div>
+            <h1 class="project-page-title">ERP &amp; <span class="accent">Ticketing Systems</span></h1>
+            <p class="project-page-tagline">Custom ERP and helpdesk platforms tailored to the way your business actually works.</p>
+            <div class="project-tags" style="margin-top:1.5rem;"><span class="project-tag">ASP.NET Core</span><span class="project-tag">Blazor</span><span class="project-tag">SQL Server</span><span class="project-tag">Azure</span><span class="project-tag">REST API</span><span class="project-tag">SignalR</span></div>
+        </div>
+        <div class="project-page-hero-visual">
+            <div class="pp-hex-ring pp-ring-1"></div>
+            <div class="pp-hex-ring pp-ring-2"></div>
+            <div class="pp-abbr">ERP</div>
+        </div>
+    </div>
+
+    <div class="project-page-body">
+        <div class="pp-overview reveal">
+            <div class="pp-overview-text">
+                <div class="section-label">Overview</div>
+                <h2 class="section-title" style="font-size:2rem;">Project <span class="accent">Overview</span></h2>
+                <div class="divider"></div>
+                <p class="section-body" style="margin-bottom:1rem;">Off-the-shelf ERP systems rarely fit perfectly. We build custom ERP modules and helpdesk ticketing systems that map precisely to your workflows — no unused features, no missing ones.</p>
+                <p class="section-body" style="margin-bottom:1rem;">Our ERP and ticketing work covers inventory management, procurement, finance modules, HR tracking, customer support desks, and IT service management systems used by 200+ seat organisations.</p>
+            </div>
+            <div class="pp-feature-list">
+                @foreach (var f in _features)
+                {
+                    <div class="pp-feature-item reveal">
+                        <div class="pp-feature-icon">@f.Icon</div>
+                        <div>
+                            <div class="pp-feature-title">@f.Title</div>
+                            <div class="pp-feature-desc">@f.Desc</div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <div class="pp-screenshots reveal">
+            <div class="section-label">Screenshots</div>
+            <h2 class="section-title" style="font-size:1.8rem;">Project <span class="accent">Gallery</span></h2>
+            <div class="divider"></div>
+            <div class="pp-screenshot-grid">
+                @for (int i = 1; i <= 4; i++)
+                {
+                    int n = i;
+                    <div class="pp-screenshot-card reveal">
+                        <img src="images/projects/erp-ticketing/screen-@(n).jpg" alt="Screenshot @n" onerror="this.parentElement.classList.add('no-img')" />
+                        <div class="pp-screenshot-placeholder">
+                            <span>Screenshot @n</span>
+                            <small>wwwroot/images/projects/erp-ticketing/screen-@(n).jpg</small>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <div class="pp-tech-section reveal">
+            <div class="section-label">Technology</div>
+            <h2 class="section-title" style="font-size:1.8rem;">How We <span class="accent">Build It</span></h2>
+            <div class="divider"></div>
+            <div class="pp-tech-grid">
+                @foreach (var t in _techDetails)
+                {
+                    <div class="pp-tech-card reveal">
+                        <div class="pp-tech-card-title">@t.Area</div>
+                        <div class="pp-tech-card-body">@t.Detail</div>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <div class="pp-cta reveal">
+            <h2 class="section-title" style="font-size:2rem;">Ready to Get <span class="accent">Started?</span></h2>
+            <p class="section-body" style="margin-bottom:2rem;">Let's build something great together.</p>
+            <a href="javascript:void(0)" class="btn-primary" @onclick='() => Nav.NavigateTo("/#contact")'>Start a Conversation →</a>
+        </div>
+    </div>
+</div>
+
+@code {
+    private record Feature(string Icon, string Title, string Desc);
+    private record TechDetail(string Area, string Detail);
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await JS.InvokeVoidAsync("protoscendInit");
+    }
+
+    private readonly List<Feature> _features =
+    [
+        new("📦", "Inventory Management", "Real-time stock tracking, automated reorder triggers, and multi-warehouse support."),
+        new("🎫", "Ticket Workflows", "Configurable ticket pipelines with SLA tracking, escalation rules, and auto-assignment."),
+        new("👥", "HR Module", "Employee records, leave management, performance tracking, and payroll exports."),
+        new("💰", "Finance Integration", "Purchase orders, invoicing, cost centre allocation, and accounting system sync."),
+        new("📊", "Management Reporting", "Executive dashboards with KPIs, trends, and drill-down into operational detail."),
+        new("🔔", "SLA Alerting", "Automatic escalations and notifications when tickets breach SLA thresholds."),
+    ];
+
+    private readonly List<TechDetail> _techDetails =
+    [
+        new("Backend", "ASP.NET Core 10 with domain-driven design and a modular monolith architecture."),
+        new("Frontend", "Blazor Server for real-time ticket updates and collaborative ERP workflows."),
+        new("Database", "SQL Server with Entity Framework Core, complex stored procedures, and SSRS reporting."),
+        new("Search", "Elasticsearch or Azure AI Search for fast full-text search across millions of records."),
+        new("Notifications", "SignalR for real-time ticket updates, combined with email and SMS alerting."),
+        new("Integration", "REST API adapters for Sage, Xero, SAP, and common HR/payroll systems."),
+    ];
+}

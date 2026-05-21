@@ -1,0 +1,114 @@
+@page "/projects/event-booking"
+@inject NavigationManager Nav
+@inject IJSRuntime JS
+
+<div class="project-page">
+    <div class="project-page-hero">
+        <div class="project-page-hero-content">
+            <a href="javascript:void(0)" class="back-link" @onclick='() => Nav.NavigateTo("/#portfolio")'>← Back to Portfolio</a>
+            <div class="section-label" style="margin-top:1.5rem;">Featured Project</div>
+            <h1 class="project-page-title">Event <span class="accent">Booking System</span></h1>
+            <p class="project-page-tagline">End-to-end event management and ticketing platforms that handle any scale.</p>
+            <div class="project-tags" style="margin-top:1.5rem;"><span class="project-tag">ASP.NET Core</span><span class="project-tag">Blazor</span><span class="project-tag">SQL Server</span><span class="project-tag">Stripe</span><span class="project-tag">SignalR</span><span class="project-tag">Azure</span></div>
+        </div>
+        <div class="project-page-hero-visual">
+            <div class="pp-hex-ring pp-ring-1"></div>
+            <div class="pp-hex-ring pp-ring-2"></div>
+            <div class="pp-abbr">EVT</div>
+        </div>
+    </div>
+
+    <div class="project-page-body">
+        <div class="pp-overview reveal">
+            <div class="pp-overview-text">
+                <div class="section-label">Overview</div>
+                <h2 class="section-title" style="font-size:2rem;">Project <span class="accent">Overview</span></h2>
+                <div class="divider"></div>
+                <p class="section-body" style="margin-bottom:1rem;">From intimate venue bookings to large-scale multi-day conferences, our event booking systems handle the full lifecycle — event creation, seat selection, payment, QR check-in, and post-event reporting.</p>
+                <p class="section-body" style="margin-bottom:1rem;">Real-time seat availability, waitlist management, discount codes, and refund workflows are all handled out of the box. Built to scale from 50 to 50,000 attendees without architectural changes.</p>
+            </div>
+            <div class="pp-feature-list">
+                @foreach (var f in _features)
+                {
+                    <div class="pp-feature-item reveal">
+                        <div class="pp-feature-icon">@f.Icon</div>
+                        <div>
+                            <div class="pp-feature-title">@f.Title</div>
+                            <div class="pp-feature-desc">@f.Desc</div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <div class="pp-screenshots reveal">
+            <div class="section-label">Screenshots</div>
+            <h2 class="section-title" style="font-size:1.8rem;">Project <span class="accent">Gallery</span></h2>
+            <div class="divider"></div>
+            <div class="pp-screenshot-grid">
+                @for (int i = 1; i <= 4; i++)
+                {
+                    int n = i;
+                    <div class="pp-screenshot-card reveal">
+                        <img src="images/projects/event-booking/screen-@(n).jpg" alt="Screenshot @n" onerror="this.parentElement.classList.add('no-img')" />
+                        <div class="pp-screenshot-placeholder">
+                            <span>Screenshot @n</span>
+                            <small>wwwroot/images/projects/event-booking/screen-@(n).jpg</small>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <div class="pp-tech-section reveal">
+            <div class="section-label">Technology</div>
+            <h2 class="section-title" style="font-size:1.8rem;">How We <span class="accent">Build It</span></h2>
+            <div class="divider"></div>
+            <div class="pp-tech-grid">
+                @foreach (var t in _techDetails)
+                {
+                    <div class="pp-tech-card reveal">
+                        <div class="pp-tech-card-title">@t.Area</div>
+                        <div class="pp-tech-card-body">@t.Detail</div>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <div class="pp-cta reveal">
+            <h2 class="section-title" style="font-size:2rem;">Ready to Get <span class="accent">Started?</span></h2>
+            <p class="section-body" style="margin-bottom:2rem;">Let's build something great together.</p>
+            <a href="javascript:void(0)" class="btn-primary" @onclick='() => Nav.NavigateTo("/#contact")'>Start a Conversation →</a>
+        </div>
+    </div>
+</div>
+
+@code {
+    private record Feature(string Icon, string Title, string Desc);
+    private record TechDetail(string Area, string Detail);
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await JS.InvokeVoidAsync("protoscendInit");
+    }
+
+    private readonly List<Feature> _features =
+    [
+        new("🎟", "Ticket Management", "General admission, reserved seating, VIP tiers, and group bookings all in one platform."),
+        new("💳", "Secure Payments", "Stripe, PayFast, and Ozow integration with automatic refund workflows."),
+        new("📧", "Email Automation", "Branded confirmation emails, reminders, and QR code tickets sent automatically."),
+        new("📊", "Analytics Dashboard", "Real-time sales tracking, capacity monitoring, and post-event attendance reports."),
+        new("📲", "QR Check-in", "Mobile QR scanner app for fast, accurate door check-in — works offline too."),
+        new("🔄", "Waitlist & Refunds", "Automated waitlist promotion when cancellations occur, with configurable refund rules."),
+    ];
+
+    private readonly List<TechDetail> _techDetails =
+    [
+        new("Backend", "ASP.NET Core 10 Minimal APIs with Entity Framework Core and SQL Server."),
+        new("Frontend", "Blazor WebAssembly for the admin portal; lightweight vanilla JS for the public booking flow."),
+        new("Real-time", "SignalR for live seat availability updates — no page refresh required."),
+        new("Payments", "Stripe Payment Intents API with webhook handling for reliable payment confirmation."),
+        new("Email", "SendGrid or SMTP with branded HTML email templates and QR code generation."),
+        new("Deployment", "Azure App Service + Azure SQL with auto-scale rules for high-demand event windows."),
+    ];
+}

@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="../Protoscend.Api/Protoscend.Api.csproj" Id="f601c7b6-83e1-4bd4-8e12-7683315e09e8" />
+  <Project Path="Protoscend.csproj" />
+</Solution>
