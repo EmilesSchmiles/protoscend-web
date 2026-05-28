@@ -17,9 +17,8 @@ public class ContactApiService
 {
     private readonly HttpClient _http;
 
-    // ── CHANGE THIS to your real API URL after deployment ──
     // e.g. "https://api.protoscend.co.za" or "https://yourfunc.azurewebsites.net"
-    private const string BaseApiUrl = "https://localhost:7049";
+    private const string BaseApiUrl = "https://protoscend-api.onrender.com";
 
     public ContactApiService(HttpClient http) => _http = http;
 
